@@ -1,60 +1,80 @@
-# intelligent-task-manager
+# Intelligent Task Manager
 
 ## Description
 
-Describe your project here.
+The **Intelligent Task Manager** is a project that aims to streamline task management and collaboration. It includes both a frontend (built with React) and a backend (implemented in Node.js).
 
-## Frontend (React)
+### Frontend (React)
 
-```markdown
-# Client Installation
+#### Client Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/maheshmeenabalot/intelligent-task-manager/
+1. Clone the repository:
 
-# Navigate into the client directory
-cd client
+    ```bash
+    git clone https://github.com/maheshmeenabalot/intelligent-task-manager/
+    ```
 
-# Install dependencies
-npm install
-# Run development server
-npm start
+2. Navigate into the client directory:
 
-You can now view chatapp in the browser.
+    ```bash
+    cd client
+    ```
 
-Local: http://localhost:3000
-On Your Network: http://192.168.137.1:3000
-Note that the development build is not optimized.
-To create a production build, use npm run build.
+3. Install dependencies:
 
-#Backend (Node.js)
-# Server Installation
+    ```bash
+    npm install
+    ```
 
-```bash
-# Navigate into the server directory
-cd server
+4. Run the development server:
 
-# Install dependencies
-npm install
+    ```bash
+    npm start
+    ```
 
-# Run server in development mode
-npm run dev
-Dependencies
-Express
-MongoDB
-Mongoose
-Socket.io
-Bcrypt.js
-JSON Web Token (jsonwebtoken)
-Dotenv
-License
-This project is licensed under the ISC License - see the LICENSE file for details.
+    You can now view the chat app in your browser:
 
+    - Local: http://localhost:3000
+    - On Your Network: http://192.168.137.1:3000
 
-### Notes:
+   Note that the development build is not optimized. To create a production build, use:
 
-- Replace "Describe your project here." with a brief description of your project.
-- Adjust URLs (`git clone` and `localhost`/`network` URLs) based on your actual repository and development environment.
-- Ensure you update any placeholder text with actual project details and instructions.
-- This format keeps all sections in code blocks for easy copy-pasting into your README.md file. Adjust as needed for your specific project structure and documentation style.
+    ```bash
+    npm run build
+    ```
+
+### Backend (Node.js)
+
+#### Server Installation
+
+1. Navigate into the server directory:
+
+    ```bash
+    cd server
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Run the server in development mode:
+
+    ```bash
+    npm run dev
+    ```
+
+#### Dependencies
+
+- Express
+- MongoDB
+- Mongoose
+- Socket.io
+- Bcrypt.js
+- JSON Web Token (jsonwebtoken)
+- Dotenv
+
+#### License
+
+This project is licensed under the ISC License. See the LICENSE file for details.
