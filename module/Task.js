@@ -5,9 +5,9 @@ const taskSchema = new mongoose.Schema({
   description: { type: String },
   dueDate: { type: Date },
   priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Low' },
-  status: { type: String, enum: ['pending', 'In Progress', 'Completed'], default: 'pending' },
+  status: { type: String, enum: ['Pending', 'In Progress', 'Completed'], default: 'Pending' },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] // Updated here
 });
 
 module.exports = mongoose.model('Task', taskSchema);
