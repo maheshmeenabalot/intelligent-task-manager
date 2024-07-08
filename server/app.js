@@ -28,10 +28,36 @@ const io = socketIo(server, {
   },
 });
 
+let users = {}; // Map to store user ID and socket ID
+
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  console.log('a user connected');
+
+  socket.on('identify', (userId) => {
+    users[userId] = socket.id; // Map user ID to socket ID
+    socket.userId = userId; // Store user ID in socket instance
+  });
+
+  socket.on('taskUpdated', (updatedTask) => {
+    io.emit('taskUpdated', updatedTask); // Broadcast the updated task to all connected clients
+
+    // Emit event to specific collaborators
+    updatedTask.collaborators.forEach(collaboratorId => {
+      if (users[collaboratorId]) {
+        io.to(users[collaboratorId]).emit('newCollaboratorTask', updatedTask);
+      }
+    });
+  });
+
+  socket.on('taskAdded', (newTask) => {
+    io.emit('taskAdded', newTask); // Broadcast the new task to all connected clients
+  });
+
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
+    if (socket.userId) {
+      delete users[socket.userId]; // Remove user from mapping on disconnect
+    }
+    console.log('user disconnected');
   });
 });
 
@@ -215,6 +241,46 @@ app.get('/api/users', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+// Define your user search route
+app.get('/api/users/search', async (req, res) => {
+  try {
+    const name = req.query.name;
+    console.log(`Searching users with name: ${name}`); // Add logging
+    const users = await Users.find({ fullName: { $regex: name, $options: 'i' } });
+    res.json(users);
+  } catch (error) {
+    console.error('Error searching users:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Define route to get user details by ID
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const user = await Users.findById(req.params.id);
+    if (!user) {
+      console.log(`User not found with ID: ${req.params.id}`); // Add logging
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get('/api/tasks/collaborated/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const tasks = await Task.find({ collaborators: userId });
+    res.json(tasks);
+  } catch (error) {
+    console.error("Error fetching collaborated tasks:", error);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 server.listen(port, () => {
   console.log(`Listening to port ${port}`);

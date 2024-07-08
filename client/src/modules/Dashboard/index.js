@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import avatar from '../../assets/avatar.svg';
 import { io } from 'socket.io-client';
 import TaskList from './TaskList';
-import TaskForm from './TaskForm';
 import SearchAndFilters from './SearchAndFilters';
 import TaskModal from './TaskModal';
+import TaskForm from './TaskForm';
 
 const socket = io('http://localhost:8000'); // Initialize Socket.io connection
 
@@ -18,6 +18,7 @@ const Dashboard = () => {
   const [filterPriority, setFilterPriority] = useState('all');
   const [error, setError] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null); // For modal
+  const [isTaskFormVisible, setIsTaskFormVisible] = useState(false); // For task form modal
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -37,7 +38,7 @@ const Dashboard = () => {
       }
     };
     fetchTasks();
-    
+
     socket.on('taskUpdated', (updatedTask) => {
       setTasks((prevTasks) => prevTasks.map(task => task._id === updatedTask._id ? updatedTask : task));
     });
@@ -62,10 +63,6 @@ const Dashboard = () => {
       const method = editingTask ? 'PUT' : 'POST';
       const url = editingTask ? `http://localhost:8000/api/tasks/${editingTask._id}` : 'http://localhost:8000/api/tasks';
 
-      console.log('Payload:', payload);
-      console.log('URL:', url);
-      console.log('Method:', method);
-
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -84,6 +81,7 @@ const Dashboard = () => {
         } else {
           socket.emit('taskUpdated', resData);
         }
+        setIsTaskFormVisible(false); // Hide the task form modal after adding/updating
       }
     } catch (error) {
       console.error('Error adding/updating task:', error);
@@ -131,23 +129,33 @@ const Dashboard = () => {
       collaborators: task.collaborators,
     });
     setEditingTask(task);
-  };
-
-  const handleCollaboratorChange = (e) => {
-    const { value } = e.target;
-    setNewTask((prevTask) => {
-      const collaborators = value.split(',').map((id) => id.trim());
-      return { ...prevTask, collaborators };
-    });
+    setIsTaskFormVisible(true); // Show the task form modal when editing a task
   };
 
   const handleAddCollaborator = (task) => {
     setSelectedTask(task);
   };
 
-  const handleCollaboratorAdded = (updatedTask) => {
-    setTasks((prevTasks) => prevTasks.map(task => task._id === updatedTask._id ? updatedTask : task));
-    setSelectedTask(null);
+  const handleCollaboratorAdded = async (updatedTask) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/tasks/${updatedTask._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTask)
+      });
+
+      const resData = await res.json();
+      if (!res.ok) {
+        throw new Error(`Error updating task: ${resData.message}`);
+      } else {
+        setTasks((prevTasks) => prevTasks.map(task => task._id === updatedTask._id ? updatedTask : task));
+        socket.emit('taskUpdated', resData);
+        setSelectedTask(null);
+      }
+    } catch (error) {
+      console.error('Error updating task:', error);
+      setError(error.message);
+    }
   };
 
   const handleCloseModal = () => {
@@ -184,23 +192,12 @@ const Dashboard = () => {
             </div>
           </div>
           <hr className='my-6 border-t border-gray-200' />
-          <TaskForm
-            newTask={newTask}
-            handleInputChange={handleInputChange}
-            handleAddOrUpdateTask={handleAddOrUpdateTask}
-            editingTask={editingTask}
-          />
-          <div className='mt-4'>
-            <label htmlFor='collaborators' className='block text-sm font-medium text-gray-700'>Collaborators (comma-separated user IDs)</label>
-            <input
-              type='text'
-              name='collaborators'
-              id='collaborators'
-              value={newTask.collaborators.join(', ')}
-              onChange={handleCollaboratorChange}
-              className='mt-1 p-2 border border-gray-300 rounded-md shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-300'
-            />
-          </div>
+          <button
+            onClick={() => setIsTaskFormVisible(true)}
+            className='w-full bg-blue-500 text-white py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          >
+            Add Task
+          </button>
         </div>
       </div>
 
@@ -228,7 +225,20 @@ const Dashboard = () => {
               onCollaboratorAdded={handleCollaboratorAdded}
             />
           )}
-          {error && <div className='mt-4 p-4 bg-red-100 text-red-800 rounded'>{error}</div>}
+          {isTaskFormVisible && (
+            <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white p-8 rounded-lg shadow-lg w-1/2'>
+                <h2 className='text-xl font-bold mb-4'>{editingTask ? 'Edit Task' : 'Add Task'}</h2>
+                <TaskForm
+                  newTask={newTask}
+                  handleInputChange={handleInputChange}
+                  handleAddOrUpdateTask={handleAddOrUpdateTask}
+                  editingTask={editingTask}
+                  setIsTaskFormVisible={setIsTaskFormVisible} // Pass function to close modal
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
