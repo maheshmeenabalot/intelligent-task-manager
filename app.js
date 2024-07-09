@@ -16,7 +16,18 @@ const Task = require('./module/Task');
 connectDB();
 
 const app = express();
-app.use(cors());
+
+// Set the origin to your Netlify frontend URL
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -66,7 +77,6 @@ io.on('connection', (socket) => {
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
-
 // User registration
 app.post('/api/register', async (req, res) => {
   try {
