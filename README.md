@@ -66,6 +66,11 @@ You can register as a user and explore the site and all its features. The backen
 ## Backend (Node.js)
 
 ### Server Installation
+#### Prerequisites
+
+- Node.js
+- npm (Node Package Manager)
+- MongoDB (local or cloud instance)
 
 1. Navigate into the server directory:
 
@@ -85,20 +90,36 @@ You can register as a user and explore the site and all its features. The backen
     npm run dev
     ```
 
+### Project Structure
+
+
 ### Dependencies
 
-- Express
-- MongoDB
-- Mongoose
-- Socket.io
-- Bcrypt.js
-- JSON Web Token (jsonwebtoken)
-- Dotenv
+- **Express**: Web framework for Node.js.
+- **MongoDB**: NoSQL database.
+- **Mongoose**: MongoDB object modeling tool.
+- **Socket.io**: Real-time bidirectional event-based communication.
+- **Bcrypt.js**: Library for hashing passwords.
+- **JSON Web Token (jsonwebtoken)**: Implementation of JSON Web Tokens.
+- **Dotenv**: Module for loading environment variables from a `.env` file.
+- **config/**: Configuration files for database and other settings.
+- **controllers/**: Request handlers for various routes.
+- **models/**: Mongoose models for MongoDB collections.
+- **routes/**: API route definitions.
+- **middleware/**: Custom middleware functions.
 
 ## Deployment
 
 The frontend is deployed using Netlify, and the backend is deployed using Render.
 
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code adheres to the project's coding standards and passes all tests.
+
 ## License
 
 This project is licensed under the ISC License. See the LICENSE file for details.
+
+## Additional Resources
+
+For the full project, including the backend code and detailed documentation, visit the main repository: [Intelligent Task Manager](https://github.com/maheshmeenabalot/intelligent-task-manager)
