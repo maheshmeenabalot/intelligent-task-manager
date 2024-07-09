@@ -17,7 +17,9 @@ connectDB();
 
 const app = express();
 
-// Set the origin to your Netlify frontend URL
+// Log the frontend URL for debugging
+console.log(`Frontend URL: ${process.env.FRONTEND_URL}`);
+
 const corsOptions = {
   origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -258,17 +260,16 @@ app.get('/api/users', async (req, res) => {
 // Define your user search route
 app.get('/api/users/search', async (req, res) => {
   try {
-    const name = req.query.name;
-    console.log(`Searching users with name: ${name}`); // Add logging
-    const users = await Users.find({ fullName: { $regex: name, $options: 'i' } });
-    res.json(users);
+    const query = req.query.q; // Get the search query from the query parameter
+    const users = await Users.find({ fullName: { $regex: new RegExp(query, 'i') } }); // Perform a case-insensitive search using regex
+    res.status(200).json(users);
   } catch (error) {
-    console.error('Error searching users:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error searching users:', error); // Log the error for debugging
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
-// Define route to get user details by ID
+// Get user by ID
 app.get('/api/users/:id', async (req, res) => {
   try {
     const user = await Users.findById(req.params.id);
@@ -283,6 +284,7 @@ app.get('/api/users/:id', async (req, res) => {
   }
 });
 
+// Get tasks where user is a collaborator
 app.get('/api/tasks/collaborated/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
