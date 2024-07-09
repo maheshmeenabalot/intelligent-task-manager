@@ -18,12 +18,15 @@ The **Intelligent Task Manager** is a project designed to streamline task manage
 4. **Responsive Design:**
    - User-friendly interface for both desktop and mobile.
 
+## Live Demo
 
-The **Intelligent Task Manager** is a project that aims to streamline task management and collaboration. It includes both a frontend (built with React) and a backend (implemented in Node.js).
+Check out the live demo: [Intelligent Task Manager](https://intelligent-task-manager.netlify.app/)
 
-### Frontend (React)
+You can register as a user and explore the site and all its features. The backend is live at: [Backend API](https://intelligent-task-manager-2.onrender.com)
 
-#### Client Installation
+## Frontend (React)
+
+### Client Installation
 
 1. Clone the repository:
 
@@ -49,20 +52,20 @@ The **Intelligent Task Manager** is a project that aims to streamline task manag
     npm start
     ```
 
-    You can now view the chat app in your browser:
+    You can now view the app in your browser:
 
     - Local: http://localhost:3000
     - On Your Network: http://192.168.137.1:3000
 
-   Note that the development build is not optimized. To create a production build, use:
+    Note that the development build is not optimized. To create a production build, use:
 
     ```bash
     npm run build
     ```
 
-### Backend (Node.js)
+## Backend (Node.js)
 
-#### Server Installation
+### Server Installation
 
 1. Navigate into the server directory:
 
@@ -82,7 +85,7 @@ The **Intelligent Task Manager** is a project that aims to streamline task manag
     npm run dev
     ```
 
-#### Dependencies
+### Dependencies
 
 - Express
 - MongoDB
@@ -92,6 +95,10 @@ The **Intelligent Task Manager** is a project that aims to streamline task manag
 - JSON Web Token (jsonwebtoken)
 - Dotenv
 
-#### License
+## Deployment
+
+The frontend is deployed using Netlify, and the backend is deployed using Render.
+
+## License
 
 This project is licensed under the ISC License. See the LICENSE file for details.
