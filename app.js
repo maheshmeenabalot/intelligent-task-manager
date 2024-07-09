@@ -5,6 +5,9 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const connectDB = require('./db/connection');
 const Users = require('./module/Users');
 const Task = require('./module/Task');
@@ -74,6 +77,7 @@ io.on('connection', (socket) => {
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
+
 // User registration
 app.post('/api/register', async (req, res) => {
   try {
@@ -289,7 +293,6 @@ app.get('/api/tasks/collaborated/:userId', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 
 server.listen(port, () => {
   console.log(`Listening to port ${port}`);
