@@ -1,6 +1,23 @@
 # Intelligent Task Manager
 
-## Description
+The **Intelligent Task Manager** is a project designed to streamline task management and collaboration. It includes both a frontend (built with React) and a backend (implemented in Node.js). The goal is to enhance productivity through efficient task organization, real-time updates, and user-friendly features.
+
+## Features
+
+1. **Task Management:**
+   - Create, edit, delete, and search tasks.
+   - Filter tasks by status and priority.
+   - Add collaborators to tasks.
+
+2. **Real-Time Updates:**
+   - Utilizes Socket.io for real-time task updates.
+
+3. **User Authentication:**
+   - Secure authentication with JSON Web Tokens (JWT).
+
+4. **Responsive Design:**
+   - User-friendly interface for both desktop and mobile.
+
 
 The **Intelligent Task Manager** is a project that aims to streamline task management and collaboration. It includes both a frontend (built with React) and a backend (implemented in Node.js).
 
