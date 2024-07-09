@@ -28,16 +28,16 @@ You can register as a user and explore the site and all its features. The backen
 
 ### Client Installation
 
-1. Clone the repository:
+1. Clone the frontend repository:
 
     ```bash
-    git clone https://github.com/maheshmeenabalot/intelligent-task-manager/
+    git clone https://github.com/maheshmeenabalot/intelligent-task-manager-frontend
     ```
 
 2. Navigate into the client directory:
 
     ```bash
-    cd client
+    cd intelligent-task-manager-frontend
     ```
 
 3. Install dependencies:
