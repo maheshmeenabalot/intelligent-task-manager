@@ -22,7 +22,7 @@ The **Intelligent Task Manager** is a project designed to streamline task manage
 
 Check out the live demo: [Intelligent Task Manager](https://intelligent-task-manager.netlify.app/)
 
-You can register as a user and explore the site and all its features. The backend is live at: [Backend API](https://intelligent-task-manager-2.onrender.com)
+You can register as a user and explore the site and all its features. The backend is live at [Backend API](https://intelligent-task-manager-2.onrender.com)
 
 ## Frontend (React)
 
